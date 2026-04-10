@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>QR · Atomstack X20 Pro · Passport Machine by GMD</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:#F0F4F8;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:32px 16px;gap:20px}
+
+/* ── QR CARD ── */
+.qr-card{
+  background:#fff;border-radius:20px;
+  box-shadow:0 8px 40px rgba(11,25,41,.14);border:1px solid #D4DDE8;
+  width:100%;max-width:360px;overflow:hidden;
+  animation:fadeUp .5s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.qr-header{background:#0B1929;padding:18px 22px 16px;text-align:center;border-bottom:3px solid #FF4500}
+.qr-brand{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px}
+.qr-product{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:.04em;line-height:1;margin-bottom:2px}
+.qr-model{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em}
+.qr-body{padding:24px 20px 18px;display:flex;flex-direction:column;align-items:center;gap:14px;background:#fff}
+.qr-frame{
+  width:210px;height:210px;border-radius:14px;background:#fff;
+  border:2px solid #E0E8F0;display:flex;align-items:center;justify-content:center;
+  position:relative;padding:12px;
+}
+.qr-frame::before,.qr-frame::after{content:'';position:absolute;width:18px;height:18px;border-color:#FF4500;border-style:solid}
+.qr-frame::before{top:-2px;left:-2px;border-width:3px 0 0 3px;border-radius:5px 0 0 0}
+.qr-frame::after{bottom:-2px;right:-2px;border-width:0 3px 3px 0;border-radius:0 0 5px 0}
+.qr-corner-tr,.qr-corner-bl{position:absolute;width:18px;height:18px;border-color:#FF4500;border-style:solid}
+.qr-corner-tr{top:-2px;right:-2px;border-width:3px 3px 0 0;border-radius:0 5px 0 0}
+.qr-corner-bl{bottom:-2px;left:-2px;border-width:0 0 3px 3px;border-radius:0 0 0 5px}
+#qrcode{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.qr-hint{font-size:11px;color:#5A6E82;text-align:center;display:flex;align-items:center;gap:6px}
+.qr-hint::before,.qr-hint::after{content:'';flex:1;height:1px;background:#E0E8F0}
+.qr-url{
+  background:#F0F4F8;border:1px solid #D4DDE8;border-radius:999px;
+  padding:5px 14px;font-size:10px;color:#1E7FC4;font-weight:600;
+  letter-spacing:.02em;text-align:center;word-break:break-all;max-width:100%;
+}
+#urlNote{font-size:10px;color:#FF4500;font-weight:600;text-align:center;
+  background:#FFF0EB;border:1px solid #FFD0C0;border-radius:8px;padding:6px 12px;width:100%}
+.qr-footer{background:#0B1929;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.qr-footer-brand{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:.06em}
+.qr-footer-brand em{font-style:normal;color:#FF4500}
+.qr-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#F0A500;border:1px solid #F0A500;padding:2px 7px;border-radius:4px}
+
+/* ── ACTIONS ── */
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:360px}
+.btn{flex:1;min-width:130px;padding:11px 16px;border-radius:10px;font-size:12px;font-weight:600;
+  letter-spacing:.04em;text-align:center;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(11,25,41,.14)}
+.btn-primary{background:#FF4500;color:#fff}
+.btn-primary:hover{background:#cc3900}
+.btn-ghost{background:#fff;color:#0B1929;border:1px solid #D4DDE8}
+
+/* ── GUÍA ── */
+.guide-card{
+  background:#fff;border-radius:16px;border:1px solid #D4DDE8;
+  box-shadow:0 4px 20px rgba(11,25,41,.07);
+  width:100%;max-width:560px;overflow:hidden;
+  animation:fadeUp .5s .1s ease both;
+}
+.guide-header{
+  background:#0B1929;padding:14px 20px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;
+  color:#fff;letter-spacing:.06em;display:flex;align-items:center;gap:10px;
+}
+.guide-header span{font-size:18px}
+.guide-body{padding:20px}
+.step{display:flex;gap:14px;padding-bottom:18px;position:relative}
+.step:last-child{padding-bottom:0}
+.step-num{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:#FF4500;color:#fff;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(255,69,0,.3);
+}
+.step-line{
+  position:absolute;left:13px;top:28px;bottom:0;
+  width:2px;background:#E0E8F0;
+}
+.step:last-child .step-line{display:none}
+.step-content{flex:1;padding-top:4px}
+.step-title{font-weight:600;font-size:14px;color:#0B1929;margin-bottom:4px}
+.step-desc{font-size:12px;color:#5A6E82;line-height:1.65}
+.code{
+  background:#0B1929;color:#7dd3fc;font-family:monospace;font-size:11px;
+  border-radius:6px;padding:8px 12px;margin-top:8px;display:block;
+  border:1px solid rgba(30,127,196,.2);word-break:break-all;
+}
+.code em{color:#FF6B35;font-style:normal}
+.tip{
+  background:#FFF8E1;border-left:3px solid #F0A500;border-radius:0 6px 6px 0;
+  padding:8px 12px;font-size:11px;color:#5D4037;margin-top:8px;line-height:1.6;
+}
+.tip strong{color:#E65100}
+
+/* ── PASS INFO ── */
+.pass-box{
+  background:#fff;border-radius:14px;border:1px solid #D4DDE8;
+  box-shadow:0 4px 16px rgba(11,25,41,.06);
+  width:100%;max-width:360px;overflow:hidden;
+  animation:fadeUp .5s .2s ease both;
+}
+.pass-header{background:#0F2544;padding:12px 18px;display:flex;align-items:center;gap:8px}
+.pass-header-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:.06em}
+.pass-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.pass-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pass-label{font-size:11px;color:#5A6E82;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.pass-val{font-family:monospace;font-size:13px;font-weight:700;color:#0B1929;
+  background:#F0F4F8;border:1px solid #D4DDE8;border-radius:6px;padding:5px 12px;letter-spacing:.08em}
+.pass-note{font-size:11px;color:#5A6E82;line-height:1.6;border-top:1px solid #E0E8F0;padding-top:10px}
+
+@media print{
+  .actions,.guide-card,.pass-box{display:none}
+  body{background:#fff;padding:0;justify-content:center}
+  .qr-card{box-shadow:none;border:1px solid #ccc;max-width:280px}
+  @page{margin:.8cm}
+}
+</style>
+</head>
+<body>
+
+<!-- QR CARD -->
+<div class="qr-card">
+  <div class="qr-header">
+    <p class="qr-brand">Passport Machine · By GMD</p>
+    <h1 class="qr-product">Atomstack X20 Pro</h1>
+    <p class="qr-model">Grabadora Láser 20W · Ficha Técnica</p>
+  </div>
+  <div class="qr-body">
+    <div class="qr-frame">
+      <div class="qr-corner-tr"></div>
+      <div class="qr-corner-bl"></div>
+      <div id="qrcode"></div>
+    </div>
+    <p class="qr-hint">Escanea para ver la ficha técnica</p>
+    <div class="qr-url" id="qrUrlLabel">TU-USUARIO.github.io/passport-gmd</div>
+    <div id="urlNote">⚠ Actualiza la URL después de subir a GitHub Pages</div>
+  </div>
+  <div class="qr-footer">
+    <span class="qr-footer-brand">PASSPORT<em> MACHINE</em></span>
+    <span class="qr-badge">GMD · 2026</span>
+  </div>
+</div>
+
+<!-- ACCIONES -->
+<div class="actions">
+  <button class="btn btn-primary" onclick="downloadQR()">⬇ Descargar PNG</button>
+  <button class="btn btn-ghost"   onclick="window.print()">🖨 Imprimir</button>
+</div>
+
+<!-- INFO CONTRASEÑA -->
+<div class="pass-box">
+  <div class="pass-header">
+    <span style="font-size:16px">🔐</span>
+    <span class="pass-header-title">Credenciales de acceso</span>
+  </div>
+  <div class="pass-body">
+    <div class="pass-row">
+      <span class="pass-label">Contraseña</span>
+      <span class="pass-val">PASSPORT 2026</span>
+    </div>
+    <p class="pass-note">Comparte esta contraseña solo con personal autorizado. Para cambiarla, edita la variable <code style="background:#F0F4F8;padding:1px 5px;border-radius:4px;font-size:10px">ACCESS_PASSWORD</code> en el archivo <code style="background:#F0F4F8;padding:1px 5px;border-radius:4px;font-size:10px">atomstack_x20pro.html</code>.</p>
+  </div>
+</div>
+
+<!-- GUÍA GITHUB PAGES -->
+<div class="guide-card">
+  <div class="guide-header"><span>🚀</span> Cómo publicar en GitHub Pages — Paso a paso</div>
+  <div class="guide-body">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Crea una cuenta en GitHub</div>
+        <div class="step-desc">Ve a <strong>github.com</strong> y regístrate con tu correo. Es gratuito.<br>Elige un nombre de usuario — será parte de tu URL final.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Crea un repositorio nuevo</div>
+        <div class="step-desc">Una vez dentro, haz clic en <strong>New repository</strong>. Nómbralo exactamente:</div>
+        <code class="code"><em>passport-gmd</em></code>
+        <div class="step-desc" style="margin-top:8px">Marca la opción <strong>Public</strong> y haz clic en <strong>Create repository</strong>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Sube el archivo de la ficha</div>
+        <div class="step-desc">En la página del repositorio haz clic en <strong>uploading an existing file</strong>. Arrastra el archivo:</div>
+        <code class="code">atomstack_x20pro.html</code>
+        <div class="step-desc" style="margin-top:8px">⚠ <strong>Importante:</strong> renómbralo a <code style="background:#F0F4F8;padding:1px 4px;border-radius:3px">index.html</code> antes de subirlo, o GitHub Pages no lo mostrará como página principal.</div>
+        <div class="tip"><strong>Tip:</strong> Haz clic en <em>Commit changes</em> para guardar.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Activa GitHub Pages</div>
+        <div class="step-desc">Ve a <strong>Settings → Pages</strong> (menú lateral). En <em>Source</em> selecciona <strong>Deploy from a branch</strong>, rama <strong>main</strong>, carpeta <strong>/ (root)</strong>. Haz clic en <strong>Save</strong>.</div>
+        <div class="tip">Espera 1–2 minutos. GitHub te mostrará la URL activa en verde.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Tu URL final será</div>
+        <code class="code">https://<em>TU-USUARIO</em>.github.io/passport-gmd/</code>
+        <div class="step-desc" style="margin-top:8px">Pruébala en el navegador. Debería aparecer la pantalla de login con contraseña.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Actualiza el QR con tu URL real</div>
+        <div class="step-desc">Abre este archivo QR en un editor de texto y cambia la variable:</div>
+        <code class="code">const QR_URL = '<em>https://TU-USUARIO.github.io/passport-gmd/</em>';</code>
+        <div class="step-desc" style="margin-top:8px">Guarda, vuelve a abrirlo en el navegador y descarga el PNG actualizado. ¡Listo para pegar en la máquina!</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-line"></div>
+      <div class="step-content">
+        <div class="step-title">Para agregar más máquinas en el futuro</div>
+        <div class="step-desc">Solo sube un nuevo archivo HTML al mismo repositorio (ej: <code style="background:#F0F4F8;padding:1px 4px;border-radius:3px">rotomartillo.html</code>) y crea un nuevo QR apuntando a:</div>
+        <code class="code">https://<em>TU-USUARIO</em>.github.io/passport-gmd/<em>rotomartillo.html</em></code>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// ── Cambia esta URL una vez que tengas tu GitHub Pages activo ──
+let QR_URL = 'https://TU-USUARIO.github.io/passport-gmd/';
+
+// Lee URL de parámetro GET si se pasa: ?url=https://...
+const params = new URLSearchParams(window.location.search);
+if(params.get('url')) QR_URL = params.get('url');
+
+// Actualiza el label
+document.getElementById('qrUrlLabel').textContent = QR_URL;
+if(!QR_URL.includes('TU-USUARIO')){
+  document.getElementById('urlNote').style.display='none';
+}
+
+const qr = new QRCode(document.getElementById('qrcode'), {
+  text: QR_URL,
+  width: 186,
+  height: 186,
+  colorDark: '#0B1929',
+  colorLight: '#ffffff',
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+/* ── Descarga PNG con marco branded ── */
+function downloadQR(){
+  setTimeout(()=>{
+    const src = document.querySelector('#qrcode canvas');
+    if(!src){ alert('QR generándose, intenta de nuevo.'); return; }
+
+    const pad=36, topH=60, botH=36, urlH=28;
+    const W = src.width + pad*2;
+    const H = src.height + topH + botH + urlH + 20;
+    const out = document.createElement('canvas');
+    out.width=W; out.height=H;
+    const ctx = out.getContext('2d');
+
+    // Fondo blanco
+    ctx.fillStyle='#ffffff';
+    ctx.roundRect(0,0,W,H,14);
+    ctx.fill();
+
+    // Header
+    ctx.fillStyle='#0B1929';
+    ctx.fillRect(0,0,W,topH);
+    ctx.fillStyle='#FF4500';
+    ctx.fillRect(0,topH,W,3);
+
+    // Texto header
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,255,255,0.35)';
+    ctx.font='500 10px Barlow, sans-serif';
+    ctx.fillText('PASSPORT MACHINE · BY GMD', W/2, 18);
+    ctx.fillStyle='#ffffff';
+    ctx.font='bold 20px "Barlow Condensed", sans-serif';
+    ctx.fillText('ATOMSTACK X20 PRO', W/2, 44);
+
+    // QR
+    ctx.drawImage(src, pad, topH+3+10);
+
+    // URL
+    ctx.fillStyle='#1E7FC4';
+    ctx.font='10px Barlow, sans-serif';
+    ctx.fillText(QR_URL.replace('https://',''), W/2, topH+3+src.height+10+18);
+
+    // Footer
+    ctx.fillStyle='#0B1929';
+    ctx.fillRect(0,H-botH,W,botH);
+    ctx.fillStyle='#FF4500';
+    ctx.font='bold 12px "Barlow Condensed", sans-serif';
+    ctx.fillText('PASSPORT MACHINE  ·  GMD 2026', W/2, H-12);
+
+    const a = document.createElement('a');
+    a.download='QR_Atomstack_X20Pro_GMD.png';
+    a.href = out.toDataURL('image/png');
+    a.click();
+  }, 300);
+}
+</script>
+</body>
+</html>
